@@ -1,23 +1,21 @@
 const express = require("express");
-
+const {
+  getSingleBookById,
+  getAllBooks,
+  getAllIssuedBooks,
+} = require("../controllers/book-controller");
 // Data import
 const { books } = require("../data/books.json");
 const { users } = require("../data/users.json");
 // const { route } = require("./users");
 
+//const BookModel = require('../models/book-model');
+//const UserModel = require('../models/user-model');
+
 // Local Router
 const router = express.Router();
 
-/**
- * Route: /books
- * Method: GET
- * Decsription: Get All Books
- * Access: Public
- * Paramaters: None
- */
-router.get("/", (req, res) => {
-  res.status(200).json({ success: true, data: books });
-});
+const { UserModel, BookModel } = require("../models/index");
 
 /**
  * Route: /books/:id
@@ -26,21 +24,37 @@ router.get("/", (req, res) => {
  * Access: Public
  * Paramaters: ID
  */
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  const book = books.find((each) => each.id === id);
+router.get("/:id", getSingleBookById);
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   const book = books.find((each) => each.id === id);
 
-  if (!book) {
-    return res.status(404).json({
-      success: false,
-      message: "Book Does Not Exist",
-    });
-  }
-  return res.status(200).json({
-    success: true,
-    data: book,
-  });
-});
+// if(!book) {
+//   return res.status(404).json({
+//     success: false,
+//     message: "Book Not Found",
+//   });
+//  }
+//   return res.status(200).json({
+//     success: true,
+//     message: "Found The Book By Their Id",
+//     data: book,
+//   });
+// });
+
+/**
+ * Route: /books
+ * Method: GET
+ * Decsription: Geting All Books
+ * Access: Public
+ * Paramaters: None
+ */
+router.get("/", getAllBooks);
+// router.get("/", (req, res) => {
+//   res
+//     .status(200)
+//     .json({ success: true, message: " Getting all books", data: books });
+// });
 
 /**
  * Route: /books/issued/by-user
