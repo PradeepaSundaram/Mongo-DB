@@ -1,7 +1,7 @@
 const { UserModel, BookModel } = require("../models");
 
 //const getAllBooks = () => {};
-exports.getAllBooks = async (req, res) => {
+const getAllBooks = async (req, res) => {
   const books = await BookModel.find();
 
   if (books.length === 0) {
@@ -10,7 +10,8 @@ exports.getAllBooks = async (req, res) => {
       message: "No Book Found",
     });
   }
-  res.status(200).json({
+  console.log(data);
+  return res.status(200).json({
     success: true,
     data: books,
   });
@@ -33,7 +34,7 @@ exports.getAllBooks = async (req, res) => {
 //   });
 // });
 
-exports.getSingleBookById = async (req, res) => {
+const getSingleBookById = async (req, res) => {
   const { id } = req.params;
   const book = await BookModel.findId(id);
 
@@ -50,16 +51,24 @@ exports.getSingleBookById = async (req, res) => {
   });
 };
 
-exports.getAllIssuedBooks = async (req, res) => {
+const getAllIssuedBooks = async (req, res) => {
   const users = await UserModel.find({
     issuedBook: { $exists: true },
   }).populate("issuedBook");
+
+  //  Data Transfer Object (DTO)
+
   if (issuedBooks.length === 0) {
-    return res
-      .status(404)
-      .json({ success: false, message: "No books issued yet." });
+    return res.status(404).json({
+      success: false,
+      message: "No books issued yet.",
+    });
   }
-  return res.status(200).json({ success: true, data: issuedBooks });
+  return res.status(200).json({
+    success: true,
+    message: "Users with The Issued Books...",
+    data: issuedBooks,
+  });
 };
 
-//module.exports = { getAllBooks, getSingleBookById };
+module.exports = { getAllBooks, getSingleBookById, getAllIssuedBooks };
