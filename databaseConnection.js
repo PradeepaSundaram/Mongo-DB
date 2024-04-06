@@ -7,13 +7,12 @@ function DbConnection() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-
-  const db = mongoose.connection;
-
-  db.on("error", console.log.bind(console, "Connection Error !!"));
-  db.once("open", function () {
-    console.log("DB Connected !!");
-  });
 }
 
+const db = mongoose.connection;
+db.on("error", console.log.bind(console, "Connection Error !!"));
+
+db.once("open", function () {
+  console.log("DB Connected !!");
+});
 module.exports = DbConnection;

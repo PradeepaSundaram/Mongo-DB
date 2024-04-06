@@ -3,7 +3,7 @@ const issuedBook = require("../dtos/book-dto.js");
 const IssuedBook = require("../dtos/book-dto.js");
 const router = require("../routes/books.js");
 
-const getAllBooks = () => {};
+// const getAllBooks = () => {};
 exports.getAllBooks = async (req, res) => {
   const books = await BookModel.find();
 
